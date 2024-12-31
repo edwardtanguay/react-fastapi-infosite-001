@@ -1,3 +1,4 @@
+import json
 from fastapi import APIRouter
 
 router = APIRouter(
@@ -6,7 +7,6 @@ router = APIRouter(
 
 @router.get("/")
 async def get_skills():
-	return [
-		"skill1",
-		"skill2"
-	]
+	with open("data/skills.json", "r") as file:
+		skills = json.load(file)
+	return skills
