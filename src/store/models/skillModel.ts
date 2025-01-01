@@ -1,28 +1,42 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { action, Action, thunk, Thunk } from "easy-peasy";
 import { Skill } from "../../types";
+import axios from "axios";
 
 export interface SkillModel {
 	// state
 	skills: Skill[];
+
+	// actions
+	setSkills: Action<this, Skill[]>;
+
+	// thunks
+	loadSkillsThunk: Thunk<this>;
 }
 
 export const skillModel: SkillModel = {
 	// state
-	skills: [
-		{
-			idCode: "angular",
-			name: "Angular",
-			url: "https://onespace.pages.dev/techItems?id=36",
-			description:
-				"together with React and Vue.js one of the three most popular JavaScript frameworks",
-			id: 1,
-		},
-		{
-			idCode: "cicd",
-			name: "CI/CD",
-			url: "https://about.gitlab.com/topics/ci-cd",
-			description:
-				"the combined practices of continuous integration (CI) and continuous deployment (CD)",
-			id: 2,
-		},
-	],
+	skills: [],
+
+	// actions
+	setSkills: action((state, skills) => {
+		state.skills = structuredClone(skills);
+	}),
+
+	// thunks
+	loadSkillsThunk: thunk((actions) => {
+		(async () => {
+			try {
+				const response = await axios.get(
+					"http://localhost:3355/skills"
+				);
+				if (response.status === 200) {
+					const _skills: Skill[] = response.data;
+					actions.setSkills(_skills);
+				}
+			} catch (e: any) {
+				console.log(`ERROR: ${e.message}`);
+			}
+		})();
+	}),
 };
