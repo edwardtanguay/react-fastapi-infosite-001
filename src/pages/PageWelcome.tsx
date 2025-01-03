@@ -14,10 +14,21 @@ export const PageWelcome = () => {
 					return (
 						<li key={skill.id}>
 							{skill.name}
-							<div className="border border-slate-500 border-1 bg-slate-300 px-2 py-1 mb-2 w-fit rounded-md">
-								<p>{skill.description}</p>
-								<p className="text-sm italic">get more info about <a href={skill.url} className="underline" target="_blank">{skill.name}</a></p>
-							</div>
+							{skill.isOpen && (
+								<div className="border border-slate-500 border-1 bg-slate-300 px-2 py-1 mb-2 w-fit rounded-md">
+									<p>{skill.description}</p>
+									<p className="text-sm italic">
+										get more info about{" "}
+										<a
+											href={skill.url}
+											className="underline"
+											target="_blank"
+										>
+											{skill.name}
+										</a>
+									</p>
+								</div>
+							)}
 						</li>
 					);
 				})}
