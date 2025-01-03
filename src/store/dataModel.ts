@@ -22,6 +22,7 @@ export const getSkills = async () => {
 								name: name.trim(),
 								description: description.trim(),
 								url: url.trim(),
+								isOpen: false
 							};
 							_skills.push(_skill);
 						} else {
