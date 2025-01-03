@@ -27,6 +27,7 @@ export const skillModel: SkillModel = {
 	loadSkillsThunk: thunk((actions) => {
 		(async () => {
 			const _skills = await dataModel.getSkills()
+			console.log(11114, _skills);
 			actions.setSkills(_skills);
 		})();
 	}),
