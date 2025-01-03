@@ -12,7 +12,7 @@ export const PageWelcome = () => {
 
 	return (
 		<>
-			<h2 className="mt-3 text-xl mb-3">{skills.length} Skills</h2>
+			<h2 className="text-xl mb-3">{skills.length} Skills</h2>
 			<ul className="list-disc ml-4">
 				{skills.map((skill) => {
 					return (
