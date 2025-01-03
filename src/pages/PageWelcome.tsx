@@ -1,8 +1,13 @@
 import { useTypedStoreState } from "../store/hooks";
+import { Skill } from "../types";
 
 export const PageWelcome = () => {
 	const { message } = useTypedStoreState((state) => state.mainModel);
 	const { skills } = useTypedStoreState((state) => state.skillModel);
+
+	const handleToggleSkill = (skill: Skill) => {
+		alert('clicked ' + skill.name)
+	}
 
 	return (
 		<>
@@ -13,7 +18,7 @@ export const PageWelcome = () => {
 				{skills.map((skill) => {
 					return (
 						<li key={skill.id}>
-							{skill.name}
+							<p className="cursor-pointer" onClick={() => handleToggleSkill(skill)}>{skill.name}</p>
 							{skill.isOpen && (
 								<div className="border border-slate-500 border-1 bg-slate-300 px-2 py-1 mb-2 w-fit rounded-md">
 									<p>{skill.description}</p>
