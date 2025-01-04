@@ -8,7 +8,7 @@ origins = [
     "http://localhost:3663"
 ]
 
-app.add_middleware(CORSMiddleware, allow_origins=["*"])
+app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"])
 
 app.include_router(skills.router)
 

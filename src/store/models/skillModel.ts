@@ -2,6 +2,7 @@
 import { action, Action, thunk, Thunk } from "easy-peasy";
 import { Skill } from "../../types";
 import * as dataModel from "../dataModel";
+import axios from "axios";
 
 export interface SkillModel {
 	// state
@@ -10,9 +11,11 @@ export interface SkillModel {
 	// actions
 	setSkills: Action<this, Skill[]>;
 	saveSkill: Action<this, Skill>;
+	_deleteSkill: Action<this, Skill>;
 
 	// thunks
 	loadSkillsThunk: Thunk<this>;
+	deleteSkill: Thunk<this, Skill>;
 }
 
 export const skillModel: SkillModel = {
@@ -26,7 +29,13 @@ export const skillModel: SkillModel = {
 	saveSkill: action((state, skill) => {
 		const index = state.skills.findIndex((s) => s.id === skill.id);
 		if (index !== -1) {
-			state.skills[index] = structuredClone(skill)
+			state.skills[index] = structuredClone(skill);
+		}
+	}),
+	_deleteSkill: action((state, skill) => {
+		const index = state.skills.findIndex((s) => s.id === skill.id);
+		if (index !== -1) {
+			state.skills.splice(index, 1);
 		}
 	}),
 
@@ -34,8 +43,25 @@ export const skillModel: SkillModel = {
 	loadSkillsThunk: thunk((actions) => {
 		(async () => {
 			const _skills = await dataModel.getSkills();
-			console.log(11114, _skills);
 			actions.setSkills(_skills);
 		})();
+	}),
+	deleteSkill: thunk((actions, skill) => {
+		actions._deleteSkill(skill);
+		try {
+			(async () => {
+				const response = await axios.delete(
+					`http://localhost:3355/skills/${skill.id}`
+				);
+
+				if (response.status === 200) {
+					console.log("Skill deleted successfully");
+				} else {
+					console.error("Failed to delete the skill");
+				}
+			})();
+		} catch (error) {
+			console.error("Error deleting skill:", error);
+		}
 	}),
 };

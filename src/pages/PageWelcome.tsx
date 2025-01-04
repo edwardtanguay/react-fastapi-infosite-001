@@ -3,11 +3,17 @@ import { Skill } from "../types";
 
 export const PageWelcome = () => {
 	const { skills } = useTypedStoreState((state) => state.skillModel);
-	const { saveSkill } = useTypedStoreActions((actions) => actions.skillModel);
+	const { saveSkill, deleteSkill } = useTypedStoreActions(
+		(actions) => actions.skillModel
+	);
 
 	const handleToggleSkill = (skill: Skill) => {
 		skill.isOpen = !skill.isOpen;
 		saveSkill(skill);
+	};
+
+	const handleDeleteSkill = (skill: Skill) => {
+		deleteSkill(skill);
 	};
 
 	return (
@@ -18,7 +24,9 @@ export const PageWelcome = () => {
 					return (
 						<li key={skill.id}>
 							<p
-								className={`cursor-pointer w-fit ${skill.isOpen ? 'font-bold' : ''}`}
+								className={`cursor-pointer w-fit ${
+									skill.isOpen ? "font-bold" : ""
+								}`}
 								onClick={() => handleToggleSkill(skill)}
 							>
 								{skill.name}
@@ -36,6 +44,16 @@ export const PageWelcome = () => {
 											{skill.name}
 										</a>
 									</p>
+									<div className="flex justify-end">
+										<button
+											onClick={() =>
+												handleDeleteSkill(skill)
+											}
+											className=""
+										>
+											delete
+										</button>
+									</div>
 								</div>
 							)}
 						</li>
